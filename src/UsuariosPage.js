@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './Header';
 
-function UsuariosPage() {
+function UsuariosPage() { 
     return <div>
         <Header/>
         <table>

@@ -1,7 +1,7 @@
 import React from 'react';
 import UsuariosPage from './UsuariosPage';
 
-function App() {
+function App() { 
     return <UsuariosPage/>
 }
 
