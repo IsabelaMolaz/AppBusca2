@@ -6,17 +6,22 @@ function UsuariosPage() {
 
     const [ usuario, setUsuarios ] = useState([]);
 
-    async function loadData() {
-            const response = await api.get('/');
-            const usuario = response.data;
-            setUsuarios(usuario);
-        }
+    function loadData()
+    {
+        api.get('/usuario').then(response =>  {
+
+            const pegaDados = response.data;
+            setUsuarios(pegaDados);
+
+        });
+        
+    }
     
     useEffect(loadData, []);
 
     return <div>
         <Header/>
-        <table style={{border: '1px solid blue'}}>
+        <table style={{border: '5px solid red'}}>
             {
                 usuario.map(item => (
                     <tr>
