@@ -25,11 +25,11 @@ function UsuariosPage() {
             {
                 usuario.map(item => (
                     <tr>
-                        <td>{item.idUsuario}</td>
-                        <td>{item.Nome}</td>
-                        <td>{item.Telefone}</td>
-                        <td>{item.Email}</td>
-                        <td>{item.Senha}</td>
+                        <td>{item.idusuario}</td>
+                        <td>{item.nome}</td>
+                        <td>{item.telefone}</td>
+                        <td>{item.email}</td>
+                        <td>{item.senha}</td>
                     </tr>
                 
                 ))
