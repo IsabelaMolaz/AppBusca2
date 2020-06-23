@@ -1,8 +1,37 @@
 import React, { useState, useMemo } from 'react';
 import Header from './Header';
 import api from './api';
-import { Table, TableRow, TableCell, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField} from '@material-ui/core';
+import { 
+    Table, 
+    TableRow, 
+    TableCell, 
+    Button, 
+    Dialog, 
+    DialogTitle, 
+    DialogContent, 
+    DialogContentText, 
+    DialogActions,  
+    TextField} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircle from '@material-ui/icons/AddCircle';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { purple } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#e91e63',
+    },
+    secondary: {
+      main: '#fff59d',
+    },
+  },
+});
+
 function UsuariosPage() {
 
     const [ usuario, setUsuario ] = useState([]);
@@ -45,12 +74,15 @@ function UsuariosPage() {
         loadData();
     }
 
-
     return <>
+
         <Header/>
+
         { loading ?<span>Carregando usuários...</span> : <div/>}
+
+        <ThemeProvider theme={theme}>
+
         <Table style={{marginTop: '80px'}}>
-            <h3>Registro</h3>
             {   
                 usuario.map(item => (
                     <TableRow>
@@ -62,65 +94,82 @@ function UsuariosPage() {
                     </TableRow>
                 ))
             }
-                <Button onClick={() => apagar(item.idUsuario)} variant="contained" color="primary" size="small">
-                  <DeleteIcon>Apagar</DeleteIcon>
-                </Button>
-                <Dialog open={open} onClose={closeDialog} size="lg">
-                    <DialogTitle>Novo Uusário</DialogTitle>
+        </Table>
+
+            <Dialog open={open} onClose={closeDialog} size="lg">
+                <DialogTitle>Novo Usuário</DialogTitle>
                     <DialogContent>
                         <DialogContentText>Preencha os dados para cadastrar um novo usuário</DialogContentText>
-                        <TextField
-                        autoFocus
-                        margin="dense"
-                        id="nome"
-                        label="Nome"
-                        type="text"
-                        fullWidth 
-                        value={Nome}
-                        onChange={e => setNome(e.target.value)}
-                        />
-                        
-                        <TextField 
-                        autoFocus
-                        margin="dense"
-                        id="telefone"
-                        label="Telefone"
-                        type="text"
-                        fullWidth 
-                        value={Telefone}
-                        onChange={e => setTelefone(e.target.value)}
+                            <TextField
+                            autoFocus
+                            margin="dense"
+                            id="nome"
+                            label="Nome"
+                            type="text"
+                            fullWidth 
+                            value={Nome}
+                            onChange={e => setNome(e.target.value)}
+                            />
+                            
+                            <TextField 
+                            autoFocus
+                            margin="dense"
+                            id="telefone"
+                            label="Telefone"
+                            type="text"
+                            fullWidth 
+                            value={Telefone}
+                            onChange={e => setTelefone(e.target.value)}
 
-                        />
+                            />
 
-                        <TextField 
-                        autoFocus
-                        margin="dense"
-                        id="email"
-                        label="Email"
-                        type="text"
-                        fullWidth 
-                        value={Email}
-                        onChange={e => setEmail(e.target.value)}
-                        />
+                            <TextField 
+                            autoFocus
+                            margin="dense"
+                            id="email"
+                            label="Email"
+                            type="text"
+                            fullWidth 
+                            value={Email}
+                            onChange={e => setEmail(e.target.value)}
+                            />
 
-                        <TextField 
-                        autoFocus
-                        margin="dense"
-                        id="senha"
-                        label="Senha"
-                        type="password"
-                        fullWidth 
-                        value={Senha}
-                        onChange={e => setSenha(e.target.value)}
-                        />
-
+                            <TextField 
+                            autoFocus
+                            margin="dense"
+                            id="senha"
+                            label="Senha"
+                            type="password"
+                            fullWidth 
+                            value={Senha}
+                            onChange={e => setSenha(e.target.value)}
+                            />
                     </DialogContent>
+
                     <DialogActions>
-                        <Button onClick={closeDialog}>Cancelar</Button>
-                        <Button onClick={salvar}>Salvar</Button>
+                        <Button variant="contained" color="secondary" size="small">
+                        <DeleteIcon>Apagar</DeleteIcon>
+                        </Button>
+
+                        <Button variant="contained" color="secondary" size="small">
+                        <AddCircle>Adicionar</AddCircle>
+                        </Button>
+
+                        <Button variant="contained" color="secondary" size="small">
+                        <EditIcon>Editar</EditIcon>
+                        </Button>
+
+                        <Button onClick={salvar} variant="contained" color="secondary" size="small">
+                        <SaveAltIcon>Salvar</SaveAltIcon>
+                        </Button>
+
+                        <Button onClick={closeDialog} variant="contained" color="secondary" size="small">
+                        <CancelIcon>Cancelar</CancelIcon>
+                        </Button>
                     </DialogActions>
-                </Dialog>
-        </Table>
+            </Dialog>
+        </ThemeProvider>
+   
     </>
 }
 
