@@ -91,10 +91,20 @@ function UsuariosPage() {
                         <TableCell>{item.Telefone}</TableCell>
                         <TableCell>{item.Email}</TableCell>
                         <TableCell>{item.Senha}</TableCell>
+                        <Button variant="contained" color="secondary" size="small">
+                        <DeleteIcon>Apagar</DeleteIcon>
+                        </Button>
+                        <Button variant="contained" color="secondary" size="small">
+                        <EditIcon>Editar</EditIcon>
+                        </Button>
                     </TableRow>
                 ))
             }
         </Table>
+        
+        <Button variant="contained" color="secondary" size="small">
+        <AddCircle>Adicionar</AddCircle>
+        </Button>
 
             <Dialog open={open} onClose={closeDialog} size="lg">
                 <DialogTitle>Novo Usuário</DialogTitle>
@@ -147,18 +157,6 @@ function UsuariosPage() {
                     </DialogContent>
 
                     <DialogActions>
-                        <Button variant="contained" color="secondary" size="small">
-                        <DeleteIcon>Apagar</DeleteIcon>
-                        </Button>
-
-                        <Button variant="contained" color="secondary" size="small">
-                        <AddCircle>Adicionar</AddCircle>
-                        </Button>
-
-                        <Button variant="contained" color="secondary" size="small">
-                        <EditIcon>Editar</EditIcon>
-                        </Button>
-
                         <Button onClick={salvar} variant="contained" color="secondary" size="small">
                         <SaveAltIcon>Salvar</SaveAltIcon>
                         </Button>
