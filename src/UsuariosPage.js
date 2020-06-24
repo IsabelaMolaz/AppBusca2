@@ -5,6 +5,7 @@ import {
     Table, 
     TableRow, 
     TableCell, 
+    TableHead,
     Button, 
     Dialog, 
     DialogTitle, 
@@ -37,14 +38,15 @@ function UsuariosPage() {
     const [ usuario, setUsuario ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ open, setOpen ] = useState(false);
-
+    const [ openUpdate , setOpenUpdate ] = useState(false); 
     const [ Nome, setNome ] = useState('');
     const [ Telefone, setTelefone ] = useState('');
     const [ Email, setEmail ] = useState('');
     const [ Senha, setSenha] = useState(''); 
+    const [ IdUsuario, setIdUsuario] = useState(); 
 
     async function loadData(){       
-            const response = await api.get('/');
+            const response = await api.get('/usuario');
             setUsuario(response.data);
             setLoading(false);
     }
@@ -60,17 +62,30 @@ function UsuariosPage() {
     }
 
     async function salvar() {
-        await api.post('/', {Nome, Telefone, Email, Senha})
+        console.log("a", Nome, Telefone, Email, Senha);  
+        await api.post('/usuario', {Nome, Telefone, Email, Senha});
         loadData();
+        closeDialog();
+
         setNome('');
         setTelefone('');
         setEmail('');
         setSenha('');
-        closeDialog();
+    }
+
+      function openDialogUpdate(nome, telefone, email, senha, idusuario)
+    {
+        setNome(nome);
+        setTelefone(telefone);
+        setEmail(email);
+        setSenha(senha);
+        setIdUsuario(idusuario);
+
+        setOpenUpdate(true);
     }
 
     async function apagar(idUsuario) {
-        await api.delete(`/${idUsuario}`);
+        await api.delete(`/usuario/${idUsuario}`);
         loadData();
     }
 
@@ -83,18 +98,29 @@ function UsuariosPage() {
         <ThemeProvider theme={theme}>
 
         <Table style={{marginTop: '80px'}}>
+            <TableHead>
+                    <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>NOME</TableCell>
+                    <TableCell>TELEFONE</TableCell>
+                    <TableCell>EMAIL</TableCell>
+                    <TableCell>SENHA</TableCell>
+                    </TableRow>
+            </TableHead>
+            
             {   
                 usuario.map(item => (
+                   
                     <TableRow>
-                        <TableCell>{item.idUsuario}</TableCell>
-                        <TableCell>{item.Nome}</TableCell>
-                        <TableCell>{item.Telefone}</TableCell>
-                        <TableCell>{item.Email}</TableCell>
-                        <TableCell>{item.Senha}</TableCell>
-                        <Button variant="contained" color="secondary" size="small">
+                        <TableCell>{item.idusuario}</TableCell>
+                        <TableCell>{item.nome}</TableCell>
+                        <TableCell>{item.telefone}</TableCell>
+                        <TableCell>{item.email}</TableCell>
+                        <TableCell>{item.senha}</TableCell>
+                        <Button onClick ={()=>apagar(item.idusuario)} variant="contained" color="secondary" size="small">
                         <DeleteIcon>Apagar</DeleteIcon>
                         </Button>
-                        <Button variant="contained" color="secondary" size="small">
+                        <Button onClick={()=>openDialogUpdate(item.nome,item.telefone,item.email,item.senha,item.idusuario)} variant="contained" color="secondary" size="small">
                         <EditIcon>Editar</EditIcon>
                         </Button>
                     </TableRow>
@@ -102,7 +128,7 @@ function UsuariosPage() {
             }
         </Table>
         
-        <Button variant="contained" color="secondary" size="small">
+        <Button  onClick={openDialog} variant="contained" color="secondary" size="small">
         <AddCircle>Adicionar</AddCircle>
         </Button>
 
