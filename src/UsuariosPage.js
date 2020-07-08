@@ -43,7 +43,7 @@ function UsuariosPage() {
     const [ Telefone, setTelefone ] = useState('');
     const [ Email, setEmail ] = useState('');
     const [ Senha, setSenha] = useState(''); 
-    const [ IdUsuario, setIdUsuario] = useState(); 
+    const [ IdUsuario, setIdUsuario] = useState(null); 
 
     async function loadData(){       
             const response = await api.get('/usuario');
@@ -62,15 +62,22 @@ function UsuariosPage() {
     }
 
     async function salvar() {
-        console.log("a", Nome, Telefone, Email, Senha);  
-        await api.post('/usuario', {Nome, Telefone, Email, Senha});
+        console.log("a", IdUsuario, Nome, Telefone, Email, Senha);  
+        if(IdUsuario == null)
+            await api.post('/usuario', {Nome, Telefone, Email, Senha}); 
+        else
+            await api.put(`/usuario/idUsuario/${IdUsuario}`, {Nome, Telefone, Email, Senha}); 
+
         loadData();
         closeDialog();
-
+        
         setNome('');
         setTelefone('');
         setEmail('');
         setSenha('');
+
+        setIdUsuario(null);
+       
     }
 
       function openDialogUpdate(nome, telefone, email, senha, idusuario)
@@ -81,7 +88,7 @@ function UsuariosPage() {
         setSenha(senha);
         setIdUsuario(idusuario);
 
-        setOpenUpdate(true);
+        setOpen(true);
     }
 
     async function apagar(idUsuario) {
@@ -117,12 +124,13 @@ function UsuariosPage() {
                         <TableCell>{item.telefone}</TableCell>
                         <TableCell>{item.email}</TableCell>
                         <TableCell>{item.senha}</TableCell>
-                        <Button onClick ={()=>apagar(item.idusuario)} variant="contained" color="secondary" size="small">
+                        <TableCell><Button onClick ={()=>apagar(item.idusuario)} variant="contained" color="secondary" size="small">
                         <DeleteIcon>Apagar</DeleteIcon>
                         </Button>
-                        <Button onClick={()=>openDialogUpdate(item.nome,item.telefone,item.email,item.senha,item.idusuario)} variant="contained" color="secondary" size="small">
+                        <Button onClick={()=>openDialogUpdate(item.nome,item.telefone,item.email,item.senha,item.idusuario)}
+                         variant="contained" color="secondary" size="small">
                         <EditIcon>Editar</EditIcon>
-                        </Button>
+                        </Button></TableCell>
                     </TableRow>
                 ))
             }
